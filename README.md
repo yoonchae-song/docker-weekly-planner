@@ -8,3 +8,8 @@ cd docker-weekly-planner ( 제 프로젝트 다운)
  2. docker-compose up --build -d (컨테이너 실행)
 
  3. http://localhost:5000 ( 실행)
+
+
+결과는 이렇게 뜹니다
+<img width="951" alt="image" src="https://github.com/user-attachments/assets/a06ce756-0728-4a9c-a3b3-3769ec344648" />
+
