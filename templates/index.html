@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>주간 일정표</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; vertical-align: top; }
+
+        .done { text-decoration: line-through; color: gray; }
+
+        
+        .weekday-header:nth-child(2) { background-color: #ffdddd; }
+        .weekday-header:nth-child(3) { background-color: #fff2cc; }
+        .weekday-header:nth-child(4) { background-color: #d9ead3; }
+        .weekday-header:nth-child(5) { background-color: #cfe2f3; }
+        .weekday-header:nth-child(6) { background-color: #d9d2e9; }
+        .weekday-header:nth-child(7) { background-color: #fce5cd; }
+        .weekday-header:nth-child(8) { background-color: #f4cccc; }
+
+    
+        .row-alt td {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>🗓️ 나만의 주간 계획표</h1>
+    <form method="POST">
+        <select name="weekday" required>
+            <option value="">요일</option>
+            {% for d in weekdays %}
+                <option value="{{ d }}">{{ d }}</option>
+            {% endfor %}
+        </select>
+        <input type="time" name="start_time" required>
+        <input type="text" name="task" placeholder="할 일 입력" required>
+        <button type="submit">추가</button>
+    </form>
+
+    <table>
+        <tr>
+            <th>시간</th>
+            {% for d in weekdays %}
+                <th class="weekday-header">{{ d }}</th>
+            {% endfor %}
+        </tr>
+        {% for h in hours %}
+        <tr class="{{ 'row-alt' if loop.index0 % 2 == 1 else '' }}">
+            <td>{{ h }}</td>
+            {% for d in weekdays %}
+                <td>
+                    {% for task in schedule[h][d] %}
+                        <div class="{{ 'done' if task[4] else '' }}">
+                            <a href="/done/{{ task[0] }}">{{ '✅' if task[4] else '⬜' }}</a>
+                            {{ task[1] }}
+                            <a href="/delete/{{ task[0] }}" style="color:red;">[삭제]</a>
+                        </div>
+                    {% endfor %}
+                </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
